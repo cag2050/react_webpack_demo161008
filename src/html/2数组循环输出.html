@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/lib/react.js"></script>
+    <script src="../js/lib/react-dom.js"></script>
+    <!-- browser.js是babel编译器的浏览器版本-->
+    <script src="../js/lib/browser.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+    var arr = ['jeff', 'john', 'tom'];
+    ReactDOM.render(
+            <div>
+                {
+                    arr.map(function (name) {
+                        return <div>hello,{name}</div>;
+                    })
+                }
+            </div>,
+            document.getElementById("example")
+    );
+</script>
+</body>
+</html>

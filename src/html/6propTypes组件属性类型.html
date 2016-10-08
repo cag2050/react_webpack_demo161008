@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/lib/react.js"></script>
+    <script src="../js/lib/react-dom.js"></script>
+    <!-- browser.js是babel编译器的浏览器版本-->
+    <script src="../js/lib/browser.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+    var title = "title1";
+
+    var MyTitle = React.createClass({
+        propTypes: {
+            title: React.PropTypes.string.isRequired
+        },
+        render: function () {
+            return <h1>Title is {this.props.title}</h1>;
+        }
+    });
+
+    ReactDOM.render(
+            <MyTitle title={title}></MyTitle>,
+            document.getElementById("example")
+    );
+</script>
+</body>
+</html>
