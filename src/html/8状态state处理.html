@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/lib/react.js"></script>
+    <script src="../js/lib/react-dom.js"></script>
+    <!-- browser.js是babel编译器的浏览器版本-->
+    <script src="../js/lib/browser.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+    var LikeChange = React.createClass({
+        getInitialState: function () {
+            return {liked: false};
+        },
+        handleClick: function () {
+            this.setState({liked: !this.state.liked});
+        },
+        render: function () {
+            var text = this.state.liked ? "like" : "dont like";
+            return (
+                    <div onClick={this.handleClick}>click {text} to toggle word</div>
+            );
+
+        }
+    });
+
+    ReactDOM.render(
+            <LikeChange />,
+            document.getElementById("example")
+    );
+</script>
+</body>
+</html>

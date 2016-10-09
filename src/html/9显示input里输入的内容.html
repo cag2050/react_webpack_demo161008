@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/lib/react.js"></script>
+    <script src="../js/lib/react-dom.js"></script>
+    <!-- browser.js是babel编译器的浏览器版本-->
+    <script src="../js/lib/browser.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+    var ShowContent = React.createClass({
+        getInitialState: function () {
+            return {content: "default value"};
+        },
+        // 使用this.refs.xxx.value和event.target.value都可以获取到input的输入值，注意使用后者，需要传回event对象
+//        handleChange: function () {
+        handleChange: function (event) {
+//            this.setState({content: this.refs.inputDemo.value});
+            this.setState({content: event.target.value});
+        },
+        render: function () {
+            var text = this.state.content;
+            return (
+                    <div>
+                        <input type="text" ref="inputDemo" value={text} onChange={this.handleChange}/>
+                        <p>{text}</p>
+                    </div>
+            )
+        }
+    });
+
+    ReactDOM.render(
+            <ShowContent />,
+            document.getElementById("example")
+    )
+</script>
+</body>
+</html>
