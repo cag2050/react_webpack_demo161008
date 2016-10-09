@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/lib/react.js"></script>
+    <script src="../js/lib/react-dom.js"></script>
+    <!-- browser.js是babel编译器的浏览器版本-->
+    <script src="../js/lib/browser.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+    var Hello = React.createClass({
+        getInitialState: function () {
+            return {opacityValue: 1.0};
+        },
+        componentDidMount: function () {
+            setInterval(function () {
+                var newOpacity = this.state.opacityValue - 0.1;
+                if (newOpacity < 0) {
+                    newOpacity = 1.0;
+                }
+                this.setState({opacityValue: newOpacity});
+            }.bind(this), 1000);
+
+        },
+        render: function () {
+            return (
+                    <div style={{opacity:this.state.opacityValue}}>
+                        hello,{this.props.name}.
+                        <br/>
+                        每秒透明度减去0.1
+                    </div>
+            )
+        }
+    });
+
+    ReactDOM.render(
+            <Hello name="world"/>,
+            document.getElementById("example")
+    );
+</script>
+</body>
+</html>

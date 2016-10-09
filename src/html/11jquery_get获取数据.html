@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/lib/react.js"></script>
+    <script src="../js/lib/react-dom.js"></script>
+    <!-- browser.js是babel编译器的浏览器版本-->
+    <script src="../js/lib/browser.min.js"></script>
+    <script src="../js/lib/jquery.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+    var GetJson = React.createClass({
+        getInitialState: function () {
+            return {
+                login: "",
+                html_url: ""
+            }
+        },
+        componentDidMount: function () {
+            $.get(this.props.source, function (result) {
+                var info = result[0];
+                if (this.isMounted()) {
+                    this.setState({
+                        login: info.owner.login,
+                        html_url: info.owner.html_url
+                    })
+                }
+            }.bind(this));
+        },
+        render: function () {
+            return (
+                    <div>user {this.state.login} 's github address is {this.state.html_url} </div>
+            );
+        }
+    });
+
+    ReactDOM.render(
+            <GetJson source="https://api.github.com/users/octocat/gists"/>,
+            document.getElementById("example")
+    );
+</script>
+</body>
+</html>
