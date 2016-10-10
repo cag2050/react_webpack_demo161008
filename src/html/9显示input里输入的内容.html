@@ -19,6 +19,12 @@
 //        handleChange: function () {
         handleChange: function (event) {
 //            this.setState({content: this.refs.inputDemo.value});
+//            var dom1 = this.refs.inputDemo.getDOMNode();
+//            var dom1 = this.getDOMNode();
+            var dom2 = ReactDOM.findDOMNode(this.refs.inputDemo);
+//            console.log("dom1 = " + dom1);
+            console.log("dom2 = " + dom2);
+            console.log(dom2);
             this.setState({content: event.target.value});
         },
         render: function () {

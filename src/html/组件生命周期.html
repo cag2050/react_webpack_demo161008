@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/lib/react.js"></script>
+    <script src="../js/lib/react-dom.js"></script>
+    <!-- browser.js是babel编译器的浏览器版本-->
+    <script src="../js/lib/browser.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+    var num = 123;
+    var ComponentLifeCycle = React.createClass({
+        /*
+         一个React组件的生命周期分为三个部分：实例化、存在期和销毁时。
+
+         当组件在客户端被实例化，第一次被创建时，以下方法依次被调用：
+         1、getDefaultProps
+         2、getInitialState
+         3、componentWillMount
+         4、render
+         5、componentDidMount
+         */
+        // 获取默认属性值
+        getDefaultProps: function () {
+            console.log("getDefaultProps 发生");
+            return {
+                prop_demo: "prop_demo"
+            }
+        },
+        // 属性校验
+        propTypes: {
+            prop_number: React.PropTypes.number.isRequired
+        },
+        // 获取默认state值
+        getInitialState: function () {
+            console.log("getInitialState 发生");
+            return {
+                state_demo: "state_demo"
+            }
+        },
+        // 组件将要mount
+        // 该方法在首次渲染之前调用，也是在 render 方法调用之前修改 state 的最后一次机会。
+        componentWillMount: function () {
+            console.log("componentWillMount 发生");
+        },
+        // 组件渲染
+        render: function () {
+            console.log("render 发生");
+            return (
+                    <div>文本输出：ComponentLifeCycle Demo
+                        <br/>
+                        props输出：{this.props.prop_demo}
+                        <br/>
+                        var输出：{num}
+                        <br/>
+                        state输出：{this.state.state_demo}
+                    </div>
+            );
+
+        },
+        // 组件mount
+        componentDidMount: function () {
+            console.log("componentDidMount 发生");
+        },
+        /*
+         每次修改 state，都会重新渲染组件，实例化后通过 state 更新组件，会依次调用下列方法：
+         1、shouldComponentUpdate
+         2、componentWillUpdate
+         3、render
+         4、conponentDidUpdate
+         */
+        shouldComponentUpdate: function () {
+            console.log("shouldComponentUpdate 发生");
+        },
+        componentWillUpdate: function () {
+            console.log("componentWillUpdate 发生");
+        },
+        componentDidUpdate:function () {
+            console.log("componentDidUpdate 发生");
+        }
+    });
+
+    ReactDOM.render(
+            <ComponentLifeCycle prop_number={num}/>,
+            document.getElementById("example")
+    );
+</script>
+
+</body>
+</html>

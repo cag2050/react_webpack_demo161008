@@ -86,7 +86,7 @@ var config = {
                 //    loaders: ['react-hot', 'babel'],
                 loader: 'babel',
                 query: {
-                    presets: ['es2015']
+                    presets: ['es2015','react']
                     // presets: ['es2015','react']
                 }
             }
