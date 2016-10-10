@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/lib/react.js"></script>
+    <script src="../js/lib/react-dom.js"></script>
+    <!-- browser.js是babel编译器的浏览器版本-->
+    <script src="../js/lib/browser.min.js"></script>
+    <script src="../js/lib/jquery.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+    var PromiseJson = React.createClass({
+        getInitialState: function () {
+            return {
+                loading: true,
+                error: null,
+                data: null
+            }
+        },
+        componentDidMount: function () {
+            this.props.promise.then(
+                    function (value) {
+                        this.setState({loading: false, data: value});
+                    }.bind(this),
+                    function (error) {
+                        this.setState({loading: false, error: error});
+                        console.log(error);
+                        console.log(this.state.error);
+                    }.bind(this));
+        },
+        render: function () {
+            if (this.state.loading) {
+                return <div>Loading...</div>;
+            }
+            else if (this.state.error !== null) {
+                console.log(this.state.error);
+                return <div>Error: {this.state.error.statusText}</div>;
+            }
+            else {
+                var items = this.state.data.items;
+                /*
+                 var items = ["aaa","bbb","ccc"];
+                 var itemsList = items.map(function (value,index) {
+                 return (
+                 <li key={index}>{value}</li>
+                 );
+                 });
+                 */
+                var itemsList = items.map(function (value, index) {
+                    return (
+                            <li key={index}>
+                                <a href={value.html_url} target="_blank">{value.name}</a>
+                                ({value.stargazers_count} stars)
+                                <br/>
+                                {value.description}
+                            </li>
+                    );
+                });
+                return (
+                        <div>Github上最流行的库：
+                            <br/>
+                            <ol>{itemsList}</ol>
+                        </div>
+
+                );
+            }
+
+        }
+    });
+
+    ReactDOM.render(
+            <PromiseJson promise={$.get("https://api.githu.com/search/repositories?q=javascript&sort=stars")}/>,
+            document.getElementById("example")
+    );
+</script>
+</body>
+</html>
