@@ -16,7 +16,7 @@
         /*
          一个React组件的生命周期分为三个部分：实例化、存在期和销毁时。
 
-         当组件在客户端被实例化，第一次被创建时，以下方法依次被调用：
+         实例化: 当组件在客户端被实例化，第一次被创建时，以下方法依次被调用：
          1、getDefaultProps
          2、getInitialState
          3、componentWillMount
@@ -57,6 +57,8 @@
                         var输出：{num}
                         <br/>
                         state输出：{this.state.state_demo}
+                        <br/>
+                        <button type="button" onClick={this.handleClick}>点击改变state</button>
                     </div>
             );
 
@@ -66,20 +68,39 @@
             console.log("componentDidMount 发生");
         },
         /*
-         每次修改 state，都会重新渲染组件，实例化后通过 state 更新组件，会依次调用下列方法：
-         1、shouldComponentUpdate
-         2、componentWillUpdate
-         3、render
-         4、conponentDidUpdate
+         存在期: 每次修改 state，都会重新渲染组件，实例化后通过 state 更新组件，会依次调用下列方法：
+         1、componentWillReceiveProps
+         2、shouldComponentUpdate
+         3、componentWillUpdate
+         4、render
+         5、componentDidUpdate
          */
+        handleClick: function () {
+            this.setState({state_demo: "state_demo_change"});
+        },
+        // 组件的 props 属性可以通过父组件来更改，这时，componentWillReceiveProps 被调用。
+        // 可以在这个方法里更新 state,以触发 render 方法重新渲染组件。
+        componentWillReceiveProps: function () {
+            console.log("componentWillReceiveProps 发生");
+        },
         shouldComponentUpdate: function () {
             console.log("shouldComponentUpdate 发生");
+            return true;
+            // 如果你确定组件的 props 或者 state 的改变不需要重新渲染，可以通过在这个方法里返回 false 来阻止组件的重新渲染;
+            // 返回false 则不会执行 render 以及后面的 componentWillUpdate，componentDidUpdate 方法。
+//            return false;
         },
         componentWillUpdate: function () {
             console.log("componentWillUpdate 发生");
         },
-        componentDidUpdate:function () {
+        componentDidUpdate: function () {
             console.log("componentDidUpdate 发生");
+        },
+        // 销毁时:
+        // 每当React使用完一个组件，这个组件必须从 DOM 中卸载后被销毁，此时 componentWillUnmout 会被执行，完成所有的清理和销毁工作;
+        // 在 conponentDidMount 中添加的任务都需要再该方法中撤销，如创建的定时器或事件监听器。
+        componentWillUnmount: function () {
+            console.log("componentWillUnmount 发生");
         }
     });
 
