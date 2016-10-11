@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>React组件之间传值</title>
+    <script src="../js/lib/react.js"></script>
+    <script src="../js/lib/react-dom.js"></script>
+    <!-- browser.js是babel编译器的浏览器版本-->
+    <script src="../js/lib/browser.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+    var ParentComponent = React.createClass({
+        getDefaultProps: function () {
+            console.log("父组件 getDefaultProps 发生");
+            return {
+                date: new Date()
+            }
+        },
+        changeName: function () {
+            console.log("点击事件 changeName 发生");
+            var day = this.props.date - new Date();
+            this.setState({date: {day}});
+        },
+        render: function () {
+            console.log("父组件 render 发生");
+            return (
+                    <div>ChildComponent'name is :
+                        <ChildComponent child_name={this.props.render_name}></ChildComponent>
+                        <input type="button" onClick={this.changeName} value="点击改变父组件prop"></input>
+                    </div>
+            );
+        }
+    });
+    var ChildComponent = React.createClass({
+        componentWillReceiveProps: function () {
+            console.log("子组件 componentWillReceiveProps 发生");
+        },
+        shouldComponentUpdate: function () {
+            console.log("子组件 shouldComponentUpdate 发生");
+            return true;
+            // 如果你确定组件的 props 或者 state 的改变不需要重新渲染，可以通过在这个方法里返回 false 来阻止组件的重新渲染;
+            // 返回false 则不会执行 render 以及后面的 componentWillUpdate，componentDidUpdate 方法。
+//            return false;
+        },
+        componentWillUpdate: function () {
+            console.log("子组件 componentWillUpdate 发生");
+        },
+        componentDidUpdate: function () {
+            console.log("子组件 componentDidUpdate 发生");
+        },
+        render: function () {
+            console.log("子组件 render 发生");
+            return (
+                    <span> {this.props.child_name}</span>
+            );
+        }
+    });
+    ReactDOM.render(
+            <ParentComponent render_name="childName"/>,
+            document.getElementById("example")
+    );
+</script>
+</body>
+</html>
