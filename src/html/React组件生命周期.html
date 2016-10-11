@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>React组件生命周期</title>
     <script src="../js/lib/react.js"></script>
     <script src="../js/lib/react-dom.js"></script>
     <!-- browser.js是babel编译器的浏览器版本-->
@@ -10,8 +10,11 @@
 </head>
 <body>
 <div id="example"></div>
+
 <script type="text/babel">
     var num = 123;
+    var example = document.getElementById("example");
+
     var ComponentLifeCycle = React.createClass({
         /*
          一个React组件的生命周期分为三个部分：实例化、存在期和销毁时。
@@ -58,7 +61,9 @@
                         <br/>
                         state输出：{this.state.state_demo}
                         <br/>
-                        <button type="button" onClick={this.handleClick}>点击改变state</button>
+                        <button type="button" onClick={this.changeState}>点击改变state的文字</button>
+                        <br/>
+                        <button type="button" onClick={this.unmountComponent}>点击移除此组件</button>
                     </div>
             );
 
@@ -75,11 +80,18 @@
          4、render
          5、componentDidUpdate
          */
-        handleClick: function () {
+        changeState: function () {
+            console.log("---state改变-------");
             this.setState({state_demo: "state_demo_change"});
         },
-        // 组件的 props 属性可以通过父组件来更改，这时，componentWillReceiveProps 被调用。
-        // 可以在这个方法里更新 state,以触发 render 方法重新渲染组件。
+        unmountComponent: function () {
+            console.log("---卸载组件-------");
+            // 卸载组件语句
+            ReactDOM.unmountComponentAtNode(example);
+        },
+        // 1.组件的 props 属性可以通过父组件来更改，这时，componentWillReceiveProps 被调用，
+        //   可以在这个方法里更新 state,以触发 render 方法重新渲染组件；
+        // 2.重复渲染也会触发componentWillReceiveProps；
         componentWillReceiveProps: function () {
             console.log("componentWillReceiveProps 发生");
         },
@@ -103,11 +115,18 @@
             console.log("componentWillUnmount 发生");
         }
     });
-
+    console.log("---第一次render渲染--------");
     ReactDOM.render(
             <ComponentLifeCycle prop_number={num}/>,
             document.getElementById("example")
     );
+    // 重复渲染会触发componentWillReceiveProps
+    console.log("---第二次render渲染--------");
+    ReactDOM.render(
+            <ComponentLifeCycle prop_number={num}/>,
+            document.getElementById("example")
+    );
+    //    ReactDOM.unmountComponentAtNode(example);
 </script>
 
 </body>
