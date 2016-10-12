@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>React组件之间传值</title>
+    <title></title>
     <script src="../js/lib/react.js"></script>
     <script src="../js/lib/react-dom.js"></script>
     <!-- browser.js是babel编译器的浏览器版本-->
@@ -12,6 +12,11 @@
 <div id="example"></div>
 <script type="text/babel">
     var ParentComponent = React.createClass({
+        getDefaultProps: function () {
+            return {
+                render_name: "aaa"
+            }
+        },
         render: function () {
             /* 父组件return时：父组件属性值render_name，赋值给子组件的child_name */
             console.log("父组件render：指定属性值render_name");
@@ -35,7 +40,10 @@
     });
     ReactDOM.render(
             // 父组件render：指定属性值render_name
+/*
             <ParentComponent render_name="childName"/>,
+*/
+            <ParentComponent/>,
             document.getElementById("example")
     );
 </script>

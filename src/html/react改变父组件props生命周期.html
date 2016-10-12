@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>React组件之间传值</title>
+    <title></title>
     <script src="../js/lib/react.js"></script>
     <script src="../js/lib/react-dom.js"></script>
     <!-- browser.js是babel编译器的浏览器版本-->
@@ -21,7 +21,8 @@
         changeName: function () {
             console.log("点击事件 changeName 发生");
             var day = this.props.date - new Date();
-            this.setState({date: {day}});
+            // 父组件发生render的时候子组件就会调用componentWillReceiveProps（不管props有没有更新，也不管父子组件之间有没有数据交换）。
+            this.setState({date: day});
         },
         render: function () {
             console.log("父组件 render 发生");
@@ -31,21 +32,35 @@
                         <input type="button" onClick={this.changeName} value="点击改变父组件prop"></input>
                     </div>
             );
+        },
+        componentDidMount: function () {
+            console.log("父组件 componentDidMount 发生");
         }
     });
     var ChildComponent = React.createClass({
-        componentWillReceiveProps: function () {
+        componentWillReceiveProps: function (nextProps) {
+            // 父组件发生render的时候子组件就会调用componentWillReceiveProps（不管props有没有更新，也不管父子组件之间有没有数据交换）。
             console.log("子组件 componentWillReceiveProps 发生");
+            console.log("子组件 componentWillReceiveProps 的 nextProps = ");
+            console.log(nextProps);
         },
-        shouldComponentUpdate: function () {
+        shouldComponentUpdate: function (nextProps, nextState) {
             console.log("子组件 shouldComponentUpdate 发生");
+            console.log("子组件 shouldComponentUpdate 的 nextProps =");
+            console.log(nextProps);
+            console.log("子组件 shouldComponentUpdate 的 nextState =");
+            console.log(nextState);
             return true;
             // 如果你确定组件的 props 或者 state 的改变不需要重新渲染，可以通过在这个方法里返回 false 来阻止组件的重新渲染;
             // 返回false 则不会执行 render 以及后面的 componentWillUpdate，componentDidUpdate 方法。
 //            return false;
         },
-        componentWillUpdate: function () {
+        componentWillUpdate: function (prevProps, prevState) {
             console.log("子组件 componentWillUpdate 发生");
+            console.log("子组件 componentWillUpdate 的 prevProps =");
+            console.log(prevProps);
+            console.log("子组件 componentWillUpdate 的 prevState =");
+            console.log(prevState);
         },
         componentDidUpdate: function () {
             console.log("子组件 componentDidUpdate 发生");
@@ -55,10 +70,13 @@
             return (
                     <span> {this.props.child_name}</span>
             );
+        },
+        componentDidMount: function () {
+            console.log("子组件 componentDidMount 发生");
         }
     });
     ReactDOM.render(
-            <ParentComponent render_name="childName"/>,
+            <ParentComponent render_name="childName44"/>,
             document.getElementById("example")
     );
 </script>

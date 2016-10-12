@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../js/lib/react.js"></script>
+    <script src="../js/lib/react-dom.js"></script>
+    <!-- browser.js是babel编译器的浏览器版本-->
+    <script src="../js/lib/browser.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+    // 子组件传值给父组件原理：
+    // 父组件写好state和处理该state的函数，同时将函数通过props属性值的形式传入子组件，子组件调用该函数，引起state变化。
+    // 本例：父组件写好了state：email和函数handleEmail，将函数handleEmail以属性形式传入子组件，子组件调用该函数
+    var ChildComponent = React.createClass({
+        render: function () {
+            return <div>请输入邮箱：
+                <input type="email" onChange={this.props.handleEmail}/>
+            </div>
+        }
+
+    });
+
+    var ParentComponent = React.createClass({
+        getInitialState: function () {
+            return {email: ""}
+        },
+        handleEmail: function (event) {
+            this.setState({email: event.target.value});
+        },
+        render: function () {
+            return (
+                    <div>用户输入的邮箱：{this.state.email}
+                        <ChildComponent handleEmail={this.handleEmail}/>
+                    </div>
+            )
+        }
+    });
+
+    ReactDOM.render(
+            <ParentComponent />,
+            document.getElementById("example")
+    )
+</script>
+</body>
+</html>
