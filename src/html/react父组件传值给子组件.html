@@ -11,10 +11,23 @@
 <body>
 <div id="example"></div>
 <script type="text/babel">
+    // 父组件传值给子组件原理：
+    // 将父组件的属性，赋值给子组件；子组件处理传来的值
+    var ChildComponent = React.createClass({
+        render: function () {
+            console.log("子组件return时：子组件显示child_name");
+            console.log("顺序：父组件render时的属性值==>子组件属性值==>子组件显示该值");
+            return (
+                    // 子组件return时：子组件显示child_name
+                    <span> {this.props.child_name}</span>
+            );
+        }
+    });
+
     var ParentComponent = React.createClass({
         getDefaultProps: function () {
             return {
-                render_name: "aaa"
+                render_name: "child"
             }
         },
         render: function () {
@@ -28,16 +41,7 @@
             );
         }
     });
-    var ChildComponent = React.createClass({
-        render: function () {
-            console.log("子组件return时：子组件显示child_name");
-            console.log("顺序：父组件render时的属性值==>子组件属性值==>子组件显示该值");
-            return (
-                    // 子组件return时：子组件显示child_name
-                    <span> {this.props.child_name}</span>
-            );
-        }
-    });
+
     ReactDOM.render(
             // 父组件render：指定属性值render_name
 /*

@@ -12,6 +12,7 @@
 <div id="example"></div>
 <script type="text/babel">
     // 子组件传值给父组件原理：
+    // state改变了，组件才会update
     // 父组件写好state和处理该state的函数，同时将函数通过props属性值的形式传入子组件，子组件调用该函数，引起state变化。
     // 本例：父组件写好了state：email和函数handleEmail，将函数handleEmail以属性形式传入子组件，子组件调用该函数
     var ChildComponent = React.createClass({
